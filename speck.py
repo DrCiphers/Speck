@@ -46,12 +46,7 @@ class Python_SPECK():
             l_schedule.append(new_l_k[0])
             self.key_schedule.append(new_l_k[1])
             
-            
         
-    def add(self, x, y):
-        return (x+y)%(1<<64)       
-       
-       
     # ROR(x, r) ((x >> r) | (x << (64 - r)))
     def ROR(self,x):
         rs_x = ((x >> self.alpha_shift) | (x << (self.word_size - self.alpha_shift)))& self.mod_mask
