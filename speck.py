@@ -167,8 +167,8 @@ class Python_SPECK():
 
 if __name__== '__main__':
     
-    plaintext = bytearray("HelloWorld!Hello90jg390g934jg349jg390-g349-gj34-9gj3490-gj349333")
-
+    plaintext = bytearray("HOlla!!!--Hello-my-Friend.This-is-a-test-plaintext-used-in-Speck")
+    
     print("Initial Plaintext:%s"%plaintext)
     print
 
