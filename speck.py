@@ -13,7 +13,10 @@ class Python_SPECK():
         self.isAEAD = False
         self.block_size = 128
         self.implementation = 'python'
-        self.key = key
+        
+        #convert the key bytesarray to int
+        self.key = self.bytesToNumber(key)
+        
         self.IV = IV
         self.rounds = 32
         self.word_size = 64
@@ -30,7 +33,7 @@ class Python_SPECK():
         
         # Parse the given key and truncate it to the key length
         try:
-            self.key = key & ((2 ** 128) - 1)
+            self.key = self.key & ((2 ** 128) - 1)
         except (ValueError, TypeError):
             print('Invalid Key Value!')
             print('Please Provide Key as int')
@@ -175,7 +178,8 @@ if __name__== '__main__':
     print("Initial Plaintext:%s"%plaintext)
     print
 
-    s =  Python_SPECK(1234567890123456, 0)
+    key = bytearray("123456778909234234234")
+    s =  Python_SPECK(key, 0)
     
 
     
