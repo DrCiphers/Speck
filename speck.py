@@ -114,10 +114,10 @@ class Python_SPECK():
         #Inverse Feistel Operation
                 
         xor_xy = x ^ y     
-        new_y = self.ROR_inv(xor_xy) 
+        new_y = self.ROR_inv(xor_xy)  #x = ROR(x, 3)
         xor_xk = x ^ k
 
-        msub = (xor_xk - new_y) & self.mod_mask
+        msub = (xor_xk - new_y) & self.mod_mask #y = ROL(x, 8)
         new_x = self.ROL_inv(msub) 
 
         return new_x, new_y
