@@ -46,7 +46,8 @@ class Python_SPECK():
             l_schedule.append(new_l_k[0])
             self.key_schedule.append(new_l_k[1])
             
-        
+      
+       
     # ROR(x, r) ((x >> r) | (x << (64 - r)))
     def ROR(self,x):
         rs_x = ((x >> self.alpha_shift) | (x << (self.word_size - self.alpha_shift)))& self.mod_mask
@@ -103,9 +104,9 @@ class Python_SPECK():
         #Feistel Operation
         new_x = self.ROR(x)   #x = ROR(x, 8)
         new_x = (new_x + y) & self.mod_mask
-        new_x = k ^ new_x
+        new_x ^= k 
         new_y = self.ROL(y)    #y = ROL(y, 3)
-        new_y = new_x ^ new_y
+        new_y ^= new_x
 
         return new_x, new_y
     
@@ -114,10 +115,10 @@ class Python_SPECK():
         #Inverse Feistel Operation
                 
         xor_xy = x ^ y     
-        new_y = self.ROR_inv(xor_xy)  #x = ROR(x, 3)
+        new_y = self.ROR_inv(xor_xy) 
         xor_xk = x ^ k
 
-        msub = (xor_xk - new_y) & self.mod_mask #y = ROL(x, 8)
+        msub = (xor_xk - new_y) & self.mod_mask
         new_x = self.ROL_inv(msub) 
 
         return new_x, new_y
@@ -142,11 +143,16 @@ class Python_SPECK():
         
         ciphertext = (b << self.word_size) | a
         
-        return ciphertext
+        
+        ciphertext= self.numberToByteArray(ciphertext,howManyBytes=16)    
+        
+        return bytearray(ciphertext)
         
         
         
     def decrypt(self, ciphertext):
+        
+        ciphertext = self.bytesToNumber(ciphertext)
         
         b = (ciphertext >> self.word_size) & self.mod_mask
         a = ciphertext & self.mod_mask        
@@ -156,14 +162,16 @@ class Python_SPECK():
       
         plaintext = (b << self.word_size) | a    
             
-        return plaintext
+        plaintext = self.numberToByteArray(plaintext,howManyBytes=16)    
+            
+        return bytearray(plaintext)
 
 
 
 if __name__== '__main__':
     
     plaintext = bytearray("HOlla!!!--Hello-my-Friend.This-is-a-test-plaintext-used-in-Speck")
-    
+
     print("Initial Plaintext:%s"%plaintext)
     print
 
@@ -176,13 +184,11 @@ if __name__== '__main__':
         blockBytes = plaintext[x*16 : (x*16)+16]
        
         print("Plaintext: %s"%blockBytes)
-        print("Plaintext converted to int: %s"%s.bytesToNumber(blockBytes))
-        
+
         ciphertext = s.encrypt(blockBytes)
         print("Cipher Block:%s"%ciphertext)
         
         Recovered_plaintext=s.decrypt(ciphertext)
         print("Decrypted Cipher Block: %s"%Recovered_plaintext)
         
-        print("Recoverd Plaintext: %s"%s.numberToByteArray(Recovered_plaintext,howManyBytes=16))
         print
