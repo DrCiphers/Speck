@@ -217,16 +217,11 @@ if __name__== '__main__':
     IV  = bytearray("abcdefghijklmnio")
     
     s =  Python_SPECK(key, IV)
-                                      
- 
-
     print("Plaintext: %s"%plaintext)
-
     ciphertext = s.encrypt(plaintext)
     print("Cipher Block:%s"%ciphertext)
-     
+   
    
     s2 =  Python_SPECK(key, IV)   
-        
     Recovered_plaintext=s2.decrypt(ciphertext)
     print("Decrypted Cipher Block: %s"%Recovered_plaintext)
