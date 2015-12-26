@@ -214,7 +214,9 @@ if __name__== '__main__':
     print
 
     key = bytearray("123456778909234234234")
-    s =  Python_SPECK(key, bytearray("abcdefghijklmnio"))
+    IV  = bytearray("abcdefghijklmnio")
+    
+    s =  Python_SPECK(key, IV)
                                       
  
 
@@ -224,9 +226,7 @@ if __name__== '__main__':
     print("Cipher Block:%s"%ciphertext)
      
    
-    s2 =  Python_SPECK(key, bytearray("abcdefghijklmnio"))   
+    s2 =  Python_SPECK(key, IV)   
         
     Recovered_plaintext=s2.decrypt(ciphertext)
     print("Decrypted Cipher Block: %s"%Recovered_plaintext)
-        
-    print
