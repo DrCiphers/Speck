@@ -44,7 +44,7 @@ class Python_SPECK():
         l_schedule = [(self.key >> (x * self.word_size)) & self.mod_mask for x in
                       xrange(1, 128 // self.word_size)]
 
-        for x in range(self.rounds - 1):
+        for x in xrange(self.rounds - 1):
             new_l_k = self.encrypt_round(l_schedule[x], self.key_schedule[x], x)
             l_schedule.append(new_l_k[0])
             self.key_schedule.append(new_l_k[1])
@@ -78,7 +78,7 @@ class Python_SPECK():
     def bytesToNumber(self,b):
         total = 0
         multiplier = 1
-        for count in range(len(b)-1, -1, -1):
+        for count in xrange(len(b)-1, -1, -1):
             byte = b[count]
             total += multiplier * byte
             multiplier *= 256
@@ -95,7 +95,7 @@ class Python_SPECK():
         if howManyBytes == None:
             howManyBytes = numBytes(n)
         b = bytearray(howManyBytes)
-        for count in range(howManyBytes-1, -1, -1):
+        for count in xrange(howManyBytes-1, -1, -1):
             b[count] = int(n % 256)
             n >>= 8
         return b
@@ -134,12 +134,12 @@ class Python_SPECK():
         chainBytes = self.IV[:]      
       
         #CBC Mode: For each block...
-        for x in range(len(plaintextBytes)//16):
+        for x in xrange(len(plaintextBytes)//16):
             
             #XOR with the chaining block
             blockBytes = plaintextBytes[x*16 : (x*16)+16]
             
-            for y in range(16):
+            for y in xrange(16):
                 blockBytes[y] ^= chainBytes[y]
 
                 blockBytesNum = self.bytesToNumber(blockBytes)
@@ -156,7 +156,7 @@ class Python_SPECK():
             
                 
             #Overwrite the input with the output
-            for y in range(16):
+            for y in xrange(16):
                 plaintextBytes[(x*16)+y] = ciphertext[y]
 
             #Set the next chaining block
@@ -175,7 +175,7 @@ class Python_SPECK():
 
 
         #CBC Mode: For each block...
-        for x in range(len(ciphertextBytes)//16):
+        for x in xrange(len(ciphertextBytes)//16):
 
             #Decrypt it
             blockBytes = ciphertextBytes[x*16 : (x*16)+16]
@@ -193,7 +193,7 @@ class Python_SPECK():
             plaintext = self.numberToByteArray(plaintext,howManyBytes=16)  
             
             #XOR with the chaining block and overwrite the input with output
-            for y in range(16):
+            for y in xrange(16):
                 plaintext[y] ^= chainBytes[y]
                 ciphertextBytes[(x*16)+y] = plaintext[y]
 
@@ -217,11 +217,17 @@ if __name__== '__main__':
     IV  = bytearray("abcdefghijklmnio")
     
     s =  Python_SPECK(key, IV)
+                                      
+ 
+
     print("Plaintext: %s"%plaintext)
+
     ciphertext = s.encrypt(plaintext)
     print("Cipher Block:%s"%ciphertext)
-   
+     
    
     s2 =  Python_SPECK(key, IV)   
+        
     Recovered_plaintext=s2.decrypt(ciphertext)
     print("Decrypted Cipher Block: %s"%Recovered_plaintext)
+    
