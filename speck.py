@@ -143,7 +143,6 @@ class Python_SPECK():
                 blockBytes[y] ^= chainBytes[y]
 
                 blockBytesNum = self.bytesToNumber(blockBytes)
-            
                 b = (blockBytesNum >> self.word_size) & self.mod_mask
                 a = blockBytesNum & self.mod_mask
                 
@@ -151,7 +150,6 @@ class Python_SPECK():
                     b, a = self.encrypt_round(b, a, i)
          
                 ciphertext = (b << self.word_size) | a                
-            
                 ciphertext= self.numberToByteArray(ciphertext,howManyBytes=16) 
             
                 
@@ -181,15 +179,13 @@ class Python_SPECK():
             blockBytes = ciphertextBytes[x*16 : (x*16)+16]
                
             ciphertext = self.bytesToNumber(blockBytes)
-        
             b = (ciphertext >> self.word_size) & self.mod_mask
             a = ciphertext & self.mod_mask        
            
             for i in reversed(self.key_schedule):
                 b, a = self.decrypt_round(b, a, i)
           
-            plaintext = (b << self.word_size) | a    
-                
+            plaintext = (b << self.word_size) | a      
             plaintext = self.numberToByteArray(plaintext,howManyBytes=16)  
             
             #XOR with the chaining block and overwrite the input with output
