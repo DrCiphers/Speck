@@ -142,15 +142,15 @@ class Python_SPECK():
             for y in xrange(16):
                 blockBytes[y] ^= chainBytes[y]
 
-                blockBytesNum = self.bytesToNumber(blockBytes)
-                b = (blockBytesNum >> self.word_size) & self.mod_mask
-                a = blockBytesNum & self.mod_mask
+            blockBytesNum = self.bytesToNumber(blockBytes)
+            b = (blockBytesNum >> self.word_size) & self.mod_mask
+            a = blockBytesNum & self.mod_mask
                 
-                for i in self.key_schedule:
-                    b, a = self.encrypt_round(b, a, i)
+            for i in self.key_schedule:
+                b, a = self.encrypt_round(b, a, i)
          
-                ciphertext = (b << self.word_size) | a                
-                ciphertext= self.numberToByteArray(ciphertext,howManyBytes=16) 
+            ciphertext = (b << self.word_size) | a                
+            ciphertext= self.numberToByteArray(ciphertext,howManyBytes=16) 
             
                 
             #Overwrite the input with the output
@@ -204,7 +204,7 @@ class Python_SPECK():
 
 if __name__== '__main__':
     
-    plaintext = bytearray("HOlla!!!--Hello-my-Friend.This-is-a-test-plaintext-used-in-Speck")
+    plaintext = bytearray("In addition, Hello world! can be a complete even a new tool chain.")
 
     print("Initial Plaintext:%s"%plaintext)
     print
