@@ -11,7 +11,7 @@ class Python_SPECK():
         
         self.isBlockCipher = True
         self.isAEAD = False
-        self.block_size = 128
+        self.block_size = 16
         self.implementation = 'python'
         
         #convert the key bytesarray to int
